@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clearmetric — Your data, finally clear.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --indigo: #4F46E5;
+      --indigo-hover: #4338CA;
+      --indigo-light: #EEF2FF;
+      --gray-50: #F9FAFB;
+      --gray-100: #F3F4F6;
+      --gray-200: #E5E7EB;
+      --gray-300: #D1D5DB;
+      --gray-400: #9CA3AF;
+      --gray-500: #6B7280;
+      --gray-600: #4B5563;
+      --gray-700: #374151;
+      --gray-800: #1F2937;
+      --gray-900: #111827;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--gray-900);
+      background: #fff;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      border-bottom-color: var(--gray-200);
+    }
+
+    .navbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .navbar-logo {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--gray-900);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .navbar-logo span {
+      color: var(--indigo);
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .navbar-links a {
+      text-decoration: none;
+      color: var(--gray-600);
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .navbar-links a:hover {
+      color: var(--gray-900);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--indigo);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--indigo-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--gray-700);
+      border: 1px solid var(--gray-300);
+    }
+
+    .btn-secondary:hover {
+      background: var(--gray-50);
+      border-color: var(--gray-400);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .navbar-cta {
+      padding: 8px 18px;
+      font-size: 14px;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: var(--gray-100);
+      border-radius: 6px;
+      padding: 2px;
+      border: 1px solid var(--gray-200);
+    }
+
+    .lang-switch button {
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: inherit;
+      border: none;
+      background: transparent;
+      color: var(--gray-500);
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      line-height: 1.4;
+    }
+
+    .lang-switch button.active {
+      background: #fff;
+      color: var(--gray-900);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .mobile-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--gray-700);
+      margin: 5px 0;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px 100px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .hero-content {
+      max-width: 540px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--indigo-light);
+      color: var(--indigo);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+      color: var(--gray-900);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--indigo);
+    }
+
+    .hero p {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--gray-500);
+      margin-bottom: 36px;
+      max-width: 460px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-buttons .btn {
+      padding: 14px 28px;
+      font-size: 16px;
+    }
+
+    .hero-visual {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+    }
+
+    .hero-visual iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ── Section shared ── */
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 24px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-header h2 {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      color: var(--gray-900);
+    }
+
+    .section-header p {
+      font-size: 18px;
+      color: var(--gray-500);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ── Pricing ── */
+    .pricing-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 56px;
+    }
+
+    .pricing-toggle span {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--gray-500);
+      transition: color 0.2s ease;
+    }
+
+    .pricing-toggle span.active {
+      color: var(--gray-900);
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 48px;
+      height: 26px;
+      background: var(--gray-300);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .toggle-switch.active {
+      background: var(--indigo);
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+
+    .toggle-switch.active::after {
+      transform: translateX(22px);
+    }
+
+    .pricing-save {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--indigo);
+      background: var(--indigo-light);
+      padding: 4px 10px;
+      border-radius: 100px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .pricing-save.visible {
+      opacity: 1;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .pricing-card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      padding: 40px 32px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+    }
+
+    .pricing-card.featured {
+      border-color: var(--indigo);
+      box-shadow: 0 0 0 1px var(--indigo), 0 20px 40px rgba(79, 70, 229, 0.12);
+    }
+
+    .pricing-card.featured:hover {
+      box-shadow: 0 0 0 1px var(--indigo), 0 24px 48px rgba(79, 70, 229, 0.18);
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--indigo);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 5px 16px;
+      border-radius: 100px;
+    }
+
+    .pricing-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--gray-900);
+    }
+
+    .pricing-card .price {
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: -2px;
+      color: var(--gray-900);
+      margin-bottom: 4px;
+      line-height: 1.1;
+    }
+
+    .pricing-card .price .currency {
+      font-size: 24px;
+      font-weight: 700;
+      vertical-align: top;
+      position: relative;
+      top: 8px;
+    }
+
+    .pricing-card .price .period {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--gray-400);
+      letter-spacing: 0;
+    }
+
+    .pricing-card .price-desc {
+      font-size: 14px;
+      color: var(--gray-500);
+      margin-bottom: 28px;
+    }
+
+    .pricing-card ul {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+
+    .pricing-card ul li {
+      display: flex;
+      align-items: start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--gray-600);
+      padding: 8px 0;
+    }
+
+    .pricing-card ul li::before,
+    .pricing-card ul li::after {
+      content: none;
+      display: none;
+    }
+
+    .pricing-card .btn {
+      width: 100%;
+    }
+
+    /* ── Testimonials ── */
+    .testimonials-bg {
+      background: var(--gray-50);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .testimonial-card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.25s ease;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+    }
+
+    .testimonial-stars {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 16px;
+    }
+
+    .testimonial-stars svg {
+      width: 18px;
+      height: 18px;
+      fill: #FBBF24;
+    }
+
+    .testimonial-card blockquote {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--gray-600);
+      margin-bottom: 24px;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .testimonial-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--indigo-light);
+      color: var(--indigo);
+      font-weight: 700;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .testimonial-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--gray-900);
+    }
+
+    .testimonial-role {
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      border-top: 1px solid var(--gray-200);
+      padding: 64px 24px 40px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+    }
+
+    .footer-brand p {
+      font-size: 14px;
+      color: var(--gray-500);
+      margin-top: 12px;
+      max-width: 280px;
+      line-height: 1.7;
+    }
+
+    .footer-col h4 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--gray-400);
+      margin-bottom: 16px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-col a {
+      font-size: 14px;
+      color: var(--gray-600);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-col a:hover {
+      color: var(--gray-900);
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 40px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--gray-100);
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        padding: 60px 24px 80px;
+      }
+
+      .hero-content {
+        max-width: 100%;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 44px;
+      }
+
+      .hero p {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+        margin: 0 auto;
+      }
+
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+
+      .footer-brand {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar-links {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        flex-direction: column;
+        padding: 16px 24px 24px;
+        gap: 4px;
+        border-bottom: 1px solid var(--gray-200);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      }
+
+      .navbar-links.open {
+        display: flex;
+      }
+
+      .navbar-links a {
+        padding: 10px 0;
+        font-size: 16px;
+      }
+
+      .navbar-cta.desktop-only {
+        display: none;
+      }
+
+      .mobile-toggle {
+        display: block;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .hero-buttons .btn {
+        padding: 12px 24px;
+        font-size: 15px;
+        width: 100%;
+      }
+
+      .section-header h2 {
+        font-size: 32px;
+      }
+
+      .section {
+        padding: 72px 24px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        padding: 40px 16px 60px;
+      }
+
+      .hero h1 {
+        font-size: 30px;
+        letter-spacing: -0.8px;
+      }
+
+      .section {
+        padding: 56px 16px;
+      }
+
+      .pricing-card {
+        padding: 32px 24px;
+      }
+
+      .testimonial-card {
+        padding: 24px;
+      }
+    }
+
+    /* checkmark fix - use a proper inline approach */
+    .check-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      background: var(--indigo-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .check-icon svg {
+      width: 12px;
+      height: 12px;
+      stroke: var(--indigo);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="#" class="navbar-logo">Clear<span>metric</span></a>
+      <ul class="navbar-links" id="nav-links">
+        <li><a href="#features" data-i18n="nav_features">Features</a></li>
+        <li><a href="#pricing" data-i18n="nav_pricing">Pricing</a></li>
+        <li><a href="#about" data-i18n="nav_about">About</a></li>
+      </ul>
+      <div class="navbar-right">
+        <div class="lang-switch" id="lang-switch">
+          <button data-lang="en" class="active">EN</button>
+          <button data-lang="ru">RU</button>
+        </div>
+        <a href="#pricing" class="btn btn-primary navbar-cta desktop-only" data-i18n="nav_cta">Get started free</a>
+      </div>
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero" id="features">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span data-i18n="hero_badge">Now in public beta</span>
+      </div>
+      <h1 data-i18n-html="hero_title">Your data, <em>finally clear.</em></h1>
+      <p data-i18n="hero_subtitle">Clearmetric turns your raw data into actionable insights. Beautiful dashboards, real-time metrics, and zero setup required.</p>
+      <div class="hero-buttons">
+        <a href="#pricing" class="btn btn-primary" data-i18n="hero_cta_primary">Start free trial</a>
+        <a href="#" class="btn btn-secondary" data-i18n="hero_cta_secondary">View demo</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <iframe src="https://my.spline.design/3dconcreteshapecopy-f32a161729fc170b74efd2f90fdad7b6/" frameborder="0" loading="lazy" title="3D visualization"></iframe>
+    </div>
+  </section>
+
+  <!-- ── Pricing ── -->
+  <section id="pricing">
+    <div class="section">
+      <div class="section-header">
+        <h2 data-i18n="pricing_title">Simple, transparent pricing</h2>
+        <p data-i18n="pricing_subtitle">Start free, upgrade when you're ready. No hidden fees, no surprises.</p>
+      </div>
+
+      <div class="pricing-toggle">
+        <span class="toggle-label active" data-period="monthly" data-i18n="pricing_monthly">Monthly</span>
+        <div class="toggle-switch" id="billing-toggle" role="button" tabindex="0" aria-label="Toggle billing period"></div>
+        <span class="toggle-label" data-period="annual" data-i18n="pricing_annual">Annual</span>
+        <span class="pricing-save" id="pricing-save" data-i18n="pricing_save">Save 20%</span>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Starter -->
+        <div class="pricing-card">
+          <h3 data-i18n="starter_name">Starter</h3>
+          <div class="price">
+            <span class="currency">$</span>0<span class="period" data-i18n="price_period"> /mo</span>
+          </div>
+          <p class="price-desc" data-i18n="starter_desc">Free forever for small teams</p>
+          <ul>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="starter_f1">Up to 3 dashboards</span></li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="starter_f2">1,000 events/month</span></li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="starter_f3">7-day data retention</span></li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="starter_f4">Email support</span></li>
+          </ul>
+          <a href="#" class="btn btn-secondary" data-i18n="nav_cta">Get started free</a>
+        </div>
+
+        <!-- Pro -->
+        <div class="pricing-card featured">
+          <div class="pricing-badge" data-i18n="pro_badge">Most popular</div>
+          <h3 data-i18n="pro_name">Pro</h3>
+          <div class="price" data-monthly="29" data-annual="23">
+            <span class="currency">$</span><span class="price-value">29</span><span class="period" data-i18n="price_period"> /mo</span>
+          </div>
+          <p class="price-desc" data-i18n="pro_desc">For growing teams that need more</p>
+          <ul>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="pro_f1">Unlimited dashboards</span></li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="pro_f2">100,000 events/month</span></li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="pro_f3">12-month data retention</span></li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="pro_f4">Priority support</span></li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="pro_f5">Custom alerts &amp; reports</span></li>
+          </ul>
+          <a href="#" class="btn btn-primary" data-i18n="hero_cta_primary">Start free trial</a>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="pricing-card">
+          <h3 data-i18n="ent_name">Enterprise</h3>
+          <div class="price" data-i18n="ent_price">
+            Custom
+          </div>
+          <p class="price-desc" data-i18n="ent_desc">For organizations with advanced needs</p>
+          <ul>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="ent_f1">Everything in Pro</span></li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="ent_f2">Unlimited events</span></li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="ent_f3">Unlimited data retention</span></li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="ent_f4">Dedicated account manager</span></li>
+            <li><span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="ent_f5">SSO &amp; audit logs</span></li>
+          </ul>
+          <a href="#" class="btn btn-secondary" data-i18n="ent_cta">Contact sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Testimonials ── -->
+  <section class="testimonials-bg" id="about">
+    <div class="section">
+      <div class="section-header">
+        <h2 data-i18n="testimonials_title">Loved by data teams</h2>
+        <p data-i18n="testimonials_subtitle">See why hundreds of companies trust Clearmetric for their analytics.</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <blockquote data-i18n="review_1">"We migrated from a legacy BI tool and had Clearmetric running in under an hour. The real-time dashboards alone saved our ops team 10 hours a week."</blockquote>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" data-i18n="review_1_initials">SR</div>
+            <div>
+              <div class="testimonial-name" data-i18n="review_1_name">Sarah Reeves</div>
+              <div class="testimonial-role" data-i18n="review_1_role">VP of Operations, Northlake Labs</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <blockquote data-i18n="review_2">"The API is incredibly well-documented and the SDK made integration seamless. We were pulling custom metrics into our product within a single sprint."</blockquote>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" data-i18n="review_2_initials">MK</div>
+            <div>
+              <div class="testimonial-name" data-i18n="review_2_name">Marcus Kim</div>
+              <div class="testimonial-role" data-i18n="review_2_role">Lead Engineer, Raycast Technologies</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <blockquote data-i18n="review_3">"Clearmetric replaced three separate tools for us. Having funnels, retention, and revenue dashboards all in one place with live updates is a game changer."</blockquote>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" data-i18n="review_3_initials">AL</div>
+            <div>
+              <div class="testimonial-name" data-i18n="review_3_name">Amara Lin</div>
+              <div class="testimonial-role" data-i18n="review_3_role">Head of Growth, Finley Health</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="navbar-logo">Clear<span>metric</span></a>
+        <p data-i18n="footer_desc">Beautiful analytics for modern teams. Turn raw data into clarity with real-time dashboards and zero configuration.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_product">Product</h4>
+        <ul>
+          <li><a href="#features" data-i18n="nav_features">Features</a></li>
+          <li><a href="#pricing" data-i18n="nav_pricing">Pricing</a></li>
+          <li><a href="#" data-i18n="footer_integrations">Integrations</a></li>
+          <li><a href="#" data-i18n="footer_changelog">Changelog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_company">Company</h4>
+        <ul>
+          <li><a href="#about" data-i18n="nav_about">About</a></li>
+          <li><a href="#" data-i18n="footer_blog">Blog</a></li>
+          <li><a href="#" data-i18n="footer_careers">Careers</a></li>
+          <li><a href="#" data-i18n="footer_contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_legal">Legal</h4>
+        <ul>
+          <li><a href="#" data-i18n="footer_privacy">Privacy</a></li>
+          <li><a href="#" data-i18n="footer_terms">Terms</a></li>
+          <li><a href="#" data-i18n="footer_security">Security</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom" data-i18n-html="footer_copyright">&copy; 2026 Clearmetric. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // ── Translations ──
+    const translations = {
+      en: {
+        // Navbar
+        nav_features: 'Features',
+        nav_pricing: 'Pricing',
+        nav_about: 'About',
+        nav_cta: 'Get started free',
+        // Hero
+        hero_badge: 'Now in public beta',
+        hero_title: 'Your data, <em>finally clear.</em>',
+        hero_subtitle: 'Clearmetric turns your raw data into actionable insights. Beautiful dashboards, real-time metrics, and zero setup required.',
+        hero_cta_primary: 'Start free trial',
+        hero_cta_secondary: 'View demo',
+        // Pricing
+        pricing_title: 'Simple, transparent pricing',
+        pricing_subtitle: "Start free, upgrade when you're ready. No hidden fees, no surprises.",
+        pricing_monthly: 'Monthly',
+        pricing_annual: 'Annual',
+        pricing_save: 'Save 20%',
+        price_period: ' /mo',
+        // Starter
+        starter_name: 'Starter',
+        starter_desc: 'Free forever for small teams',
+        starter_f1: 'Up to 3 dashboards',
+        starter_f2: '1,000 events/month',
+        starter_f3: '7-day data retention',
+        starter_f4: 'Email support',
+        // Pro
+        pro_badge: 'Most popular',
+        pro_name: 'Pro',
+        pro_desc: 'For growing teams that need more',
+        pro_f1: 'Unlimited dashboards',
+        pro_f2: '100,000 events/month',
+        pro_f3: '12-month data retention',
+        pro_f4: 'Priority support',
+        pro_f5: 'Custom alerts & reports',
+        // Enterprise
+        ent_name: 'Enterprise',
+        ent_price: 'Custom',
+        ent_desc: 'For organizations with advanced needs',
+        ent_f1: 'Everything in Pro',
+        ent_f2: 'Unlimited events',
+        ent_f3: 'Unlimited data retention',
+        ent_f4: 'Dedicated account manager',
+        ent_f5: 'SSO & audit logs',
+        ent_cta: 'Contact sales',
+        // Testimonials
+        testimonials_title: 'Loved by data teams',
+        testimonials_subtitle: 'See why hundreds of companies trust Clearmetric for their analytics.',
+        review_1: '\u201CWe migrated from a legacy BI tool and had Clearmetric running in under an hour. The real-time dashboards alone saved our ops team 10 hours a week.\u201D',
+        review_1_initials: 'SR',
+        review_1_name: 'Sarah Reeves',
+        review_1_role: 'VP of Operations, Northlake Labs',
+        review_2: '\u201CThe API is incredibly well-documented and the SDK made integration seamless. We were pulling custom metrics into our product within a single sprint.\u201D',
+        review_2_initials: 'MK',
+        review_2_name: 'Marcus Kim',
+        review_2_role: 'Lead Engineer, Raycast Technologies',
+        review_3: '\u201CClearmetric replaced three separate tools for us. Having funnels, retention, and revenue dashboards all in one place with live updates is a game changer.\u201D',
+        review_3_initials: 'AL',
+        review_3_name: 'Amara Lin',
+        review_3_role: 'Head of Growth, Finley Health',
+        // Footer
+        footer_desc: 'Beautiful analytics for modern teams. Turn raw data into clarity with real-time dashboards and zero configuration.',
+        footer_product: 'Product',
+        footer_company: 'Company',
+        footer_legal: 'Legal',
+        footer_integrations: 'Integrations',
+        footer_changelog: 'Changelog',
+        footer_blog: 'Blog',
+        footer_careers: 'Careers',
+        footer_contact: 'Contact',
+        footer_privacy: 'Privacy',
+        footer_terms: 'Terms',
+        footer_security: 'Security',
+        footer_copyright: '&copy; 2026 Clearmetric. All rights reserved.',
+      },
+      ru: {
+        // Navbar
+        nav_features: '\u0412\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u0438',
+        nav_pricing: '\u0426\u0435\u043D\u044B',
+        nav_about: '\u041E \u043D\u0430\u0441',
+        nav_cta: '\u041D\u0430\u0447\u0430\u0442\u044C \u0431\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u043E',
+        // Hero
+        hero_badge: '\u041E\u0442\u043A\u0440\u044B\u0442\u043E\u0435 \u0431\u0435\u0442\u0430-\u0442\u0435\u0441\u0442\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435',
+        hero_title: '\u0412\u0430\u0448\u0438 \u0434\u0430\u043D\u043D\u044B\u0435 \u2014 <em>\u043D\u0430\u043A\u043E\u043D\u0435\u0446 \u044F\u0441\u043D\u044B.</em>',
+        hero_subtitle: 'Clearmetric \u043F\u0440\u0435\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0441\u044B\u0440\u044B\u0435 \u0434\u0430\u043D\u043D\u044B\u0435 \u0432 \u043F\u043E\u043D\u044F\u0442\u043D\u044B\u0435 \u0438\u043D\u0441\u0430\u0439\u0442\u044B. \u041A\u0440\u0430\u0441\u0438\u0432\u044B\u0435 \u0434\u0430\u0448\u0431\u043E\u0440\u0434\u044B, \u043C\u0435\u0442\u0440\u0438\u043A\u0438 \u0432 \u0440\u0435\u0430\u043B\u044C\u043D\u043E\u043C \u0432\u0440\u0435\u043C\u0435\u043D\u0438 \u0438 \u043D\u0443\u043B\u0435\u0432\u0430\u044F \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0430.',
+        hero_cta_primary: '\u041D\u0430\u0447\u0430\u0442\u044C \u043F\u0440\u043E\u0431\u043D\u044B\u0439 \u043F\u0435\u0440\u0438\u043E\u0434',
+        hero_cta_secondary: '\u0421\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0434\u0435\u043C\u043E',
+        // Pricing
+        pricing_title: '\u041F\u0440\u043E\u0441\u0442\u044B\u0435 \u0438 \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u044B\u0435 \u0446\u0435\u043D\u044B',
+        pricing_subtitle: '\u041D\u0430\u0447\u043D\u0438\u0442\u0435 \u0431\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u043E, \u043E\u0431\u043D\u043E\u0432\u0438\u0442\u0435 \u043A\u043E\u0433\u0434\u0430 \u0431\u0443\u0434\u0435\u0442\u0435 \u0433\u043E\u0442\u043E\u0432\u044B. \u041D\u0438\u043A\u0430\u043A\u0438\u0445 \u0441\u043A\u0440\u044B\u0442\u044B\u0445 \u043F\u043B\u0430\u0442\u0435\u0436\u0435\u0439.',
+        pricing_monthly: '\u041C\u0435\u0441\u044F\u0447\u043D\u043E',
+        pricing_annual: '\u0413\u043E\u0434\u043E\u0432\u043E\u0439',
+        pricing_save: '\u0421\u043A\u0438\u0434\u043A\u0430 20%',
+        price_period: ' /\u043C\u0435\u0441',
+        // Starter
+        starter_name: '\u0421\u0442\u0430\u0440\u0442\u043E\u0432\u044B\u0439',
+        starter_desc: '\u0411\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u043E \u043D\u0430\u0432\u0441\u0435\u0433\u0434\u0430 \u0434\u043B\u044F \u043D\u0435\u0431\u043E\u043B\u044C\u0448\u0438\u0445 \u043A\u043E\u043C\u0430\u043D\u0434',
+        starter_f1: '\u0414\u043E 3 \u0434\u0430\u0448\u0431\u043E\u0440\u0434\u043E\u0432',
+        starter_f2: '1 000 \u0441\u043E\u0431\u044B\u0442\u0438\u0439/\u043C\u0435\u0441\u044F\u0446',
+        starter_f3: '\u0425\u0440\u0430\u043D\u0435\u043D\u0438\u0435 \u0434\u0430\u043D\u043D\u044B\u0445 7 \u0434\u043D\u0435\u0439',
+        starter_f4: '\u041F\u043E\u0434\u0434\u0435\u0440\u0436\u043A\u0430 \u043F\u043E email',
+        // Pro
+        pro_badge: '\u041F\u043E\u043F\u0443\u043B\u044F\u0440\u043D\u044B\u0439',
+        pro_name: 'Pro',
+        pro_desc: '\u0414\u043B\u044F \u0440\u0430\u0441\u0442\u0443\u0449\u0438\u0445 \u043A\u043E\u043C\u0430\u043D\u0434',
+        pro_f1: '\u0411\u0435\u0437\u043B\u0438\u043C\u0438\u0442\u043D\u044B\u0435 \u0434\u0430\u0448\u0431\u043E\u0440\u0434\u044B',
+        pro_f2: '100 000 \u0441\u043E\u0431\u044B\u0442\u0438\u0439/\u043C\u0435\u0441\u044F\u0446',
+        pro_f3: '\u0425\u0440\u0430\u043D\u0435\u043D\u0438\u0435 \u0434\u0430\u043D\u043D\u044B\u0445 12 \u043C\u0435\u0441\u044F\u0446\u0435\u0432',
+        pro_f4: '\u041F\u0440\u0438\u043E\u0440\u0438\u0442\u0435\u0442\u043D\u0430\u044F \u043F\u043E\u0434\u0434\u0435\u0440\u0436\u043A\u0430',
+        pro_f5: '\u041D\u0430\u0441\u0442\u0440\u0430\u0438\u0432\u0430\u0435\u043C\u044B\u0435 \u043E\u043F\u043E\u0432\u0435\u0449\u0435\u043D\u0438\u044F \u0438 \u043E\u0442\u0447\u0451\u0442\u044B',
+        // Enterprise
+        ent_name: '\u041A\u043E\u0440\u043F\u043E\u0440\u0430\u0442\u0438\u0432\u043D\u044B\u0439',
+        ent_price: '\u041F\u043E \u0437\u0430\u043F\u0440\u043E\u0441\u0443',
+        ent_desc: '\u0414\u043B\u044F \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0439 \u0441 \u043F\u0440\u043E\u0434\u0432\u0438\u043D\u0443\u0442\u044B\u043C\u0438 \u043F\u043E\u0442\u0440\u0435\u0431\u043D\u043E\u0441\u0442\u044F\u043C\u0438',
+        ent_f1: '\u0412\u0441\u0451 \u0438\u0437 Pro',
+        ent_f2: '\u0411\u0435\u0437\u043B\u0438\u043C\u0438\u0442\u043D\u044B\u0435 \u0441\u043E\u0431\u044B\u0442\u0438\u044F',
+        ent_f3: '\u0411\u0435\u0437\u043B\u0438\u043C\u0438\u0442\u043D\u043E\u0435 \u0445\u0440\u0430\u043D\u0435\u043D\u0438\u0435 \u0434\u0430\u043D\u043D\u044B\u0445',
+        ent_f4: '\u041F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0439 \u043C\u0435\u043D\u0435\u0434\u0436\u0435\u0440',
+        ent_f5: 'SSO \u0438 \u0430\u0443\u0434\u0438\u0442 \u043B\u043E\u0433\u043E\u0432',
+        ent_cta: '\u0421\u0432\u044F\u0437\u0430\u0442\u044C\u0441\u044F \u0441 \u043E\u0442\u0434\u0435\u043B\u043E\u043C \u043F\u0440\u043E\u0434\u0430\u0436',
+        // Testimonials
+        testimonials_title: '\u041D\u0430\u0441 \u043B\u044E\u0431\u044F\u0442 \u043A\u043E\u043C\u0430\u043D\u0434\u044B \u0430\u043D\u0430\u043B\u0438\u0442\u0438\u043A\u0438',
+        testimonials_subtitle: '\u0423\u0437\u043D\u0430\u0439\u0442\u0435, \u043F\u043E\u0447\u0435\u043C\u0443 \u0441\u043E\u0442\u043D\u0438 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u0439 \u0434\u043E\u0432\u0435\u0440\u044F\u044E\u0442 Clearmetric \u0441\u0432\u043E\u044E \u0430\u043D\u0430\u043B\u0438\u0442\u0438\u043A\u0443.',
+        review_1: '\u00AB\u041C\u044B \u043C\u0438\u0433\u0440\u0438\u0440\u043E\u0432\u0430\u043B\u0438 \u0441\u043E \u0441\u0442\u0430\u0440\u043E\u0439 BI-\u0441\u0438\u0441\u0442\u0435\u043C\u044B \u0438 \u0437\u0430\u043F\u0443\u0441\u0442\u0438\u043B\u0438 Clearmetric \u043C\u0435\u043D\u0435\u0435 \u0447\u0435\u043C \u0437\u0430 \u0447\u0430\u0441. \u0422\u043E\u043B\u044C\u043A\u043E \u0434\u0430\u0448\u0431\u043E\u0440\u0434\u044B \u0432 \u0440\u0435\u0430\u043B\u044C\u043D\u043E\u043C \u0432\u0440\u0435\u043C\u0435\u043D\u0438 \u044D\u043A\u043E\u043D\u043E\u043C\u044F\u0442 \u043D\u0430\u0448\u0435\u0439 \u043A\u043E\u043C\u0430\u043D\u0434\u0435 10 \u0447\u0430\u0441\u043E\u0432 \u0432 \u043D\u0435\u0434\u0435\u043B\u044E.\u00BB',
+        review_1_initials: '\u0421\u0420',
+        review_1_name: '\u0421\u0430\u0440\u0430 \u0420\u0438\u0432\u0437',
+        review_1_role: '\u0412\u041F \u043F\u043E \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u044F\u043C, Northlake Labs',
+        review_2: '\u00ABAPI \u043F\u0440\u0435\u043A\u0440\u0430\u0441\u043D\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0438\u0440\u043E\u0432\u0430\u043D, \u0430 SDK \u0441\u0434\u0435\u043B\u0430\u043B \u0438\u043D\u0442\u0435\u0433\u0440\u0430\u0446\u0438\u044E \u043C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E \u043F\u0440\u043E\u0441\u0442\u043E\u0439. \u041C\u044B \u043D\u0430\u0447\u0430\u043B\u0438 \u043F\u043E\u043B\u0443\u0447\u0430\u0442\u044C \u043A\u0430\u0441\u0442\u043E\u043C\u043D\u044B\u0435 \u043C\u0435\u0442\u0440\u0438\u043A\u0438 \u0432 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0435 \u0437\u0430 \u043E\u0434\u0438\u043D \u0441\u043F\u0440\u0438\u043D\u0442.\u00BB',
+        review_2_initials: '\u041C\u041A',
+        review_2_name: '\u041C\u0430\u0440\u043A\u0443\u0441 \u041A\u0438\u043C',
+        review_2_role: '\u0412\u0435\u0434\u0443\u0449\u0438\u0439 \u0438\u043D\u0436\u0435\u043D\u0435\u0440, Raycast Technologies',
+        review_3: '\u00ABClearmetric \u0437\u0430\u043C\u0435\u043D\u0438\u043B \u043D\u0430\u043C \u0442\u0440\u0438 \u043E\u0442\u0434\u0435\u043B\u044C\u043D\u044B\u0445 \u0438\u043D\u0441\u0442\u0440\u0443\u043C\u0435\u043D\u0442\u0430. \u0412\u043E\u0440\u043E\u043D\u043A\u0438, \u0440\u0435\u0442\u0435\u043D\u0448\u043D \u0438 \u0434\u0430\u0448\u0431\u043E\u0440\u0434\u044B \u0434\u043E\u0445\u043E\u0434\u043E\u0432 \u0432 \u043E\u0434\u043D\u043E\u043C \u043C\u0435\u0441\u0442\u0435 \u0441 \u043E\u0431\u043D\u043E\u0432\u043B\u0435\u043D\u0438\u0435\u043C \u0432 \u0440\u0435\u0430\u043B\u044C\u043D\u043E\u043C \u0432\u0440\u0435\u043C\u0435\u043D\u0438 \u2014 \u044D\u0442\u043E \u043C\u0435\u043D\u044F\u0435\u0442 \u0432\u0441\u0451.\u00BB',
+        review_3_initials: '\u0410\u041B',
+        review_3_name: '\u0410\u043C\u0430\u0440\u0430 \u041B\u0438\u043D',
+        review_3_role: '\u0420\u0443\u043A\u043E\u0432\u043E\u0434\u0438\u0442\u0435\u043B\u044C \u0440\u043E\u0441\u0442\u0430, Finley Health',
+        // Footer
+        footer_desc: '\u041A\u0440\u0430\u0441\u0438\u0432\u0430\u044F \u0430\u043D\u0430\u043B\u0438\u0442\u0438\u043A\u0430 \u0434\u043B\u044F \u0441\u043E\u0432\u0440\u0435\u043C\u0435\u043D\u043D\u044B\u0445 \u043A\u043E\u043C\u0430\u043D\u0434. \u041F\u0440\u0435\u0432\u0440\u0430\u0442\u0438\u0442\u0435 \u0441\u044B\u0440\u044B\u0435 \u0434\u0430\u043D\u043D\u044B\u0435 \u0432 \u044F\u0441\u043D\u043E\u0441\u0442\u044C \u0441 \u0434\u0430\u0448\u0431\u043E\u0440\u0434\u0430\u043C\u0438 \u0432 \u0440\u0435\u0430\u043B\u044C\u043D\u043E\u043C \u0432\u0440\u0435\u043C\u0435\u043D\u0438 \u0431\u0435\u0437 \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438.',
+        footer_product: '\u041F\u0440\u043E\u0434\u0443\u043A\u0442',
+        footer_company: '\u041A\u043E\u043C\u043F\u0430\u043D\u0438\u044F',
+        footer_legal: '\u041F\u0440\u0430\u0432\u043E\u0432\u0430\u044F \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044F',
+        footer_integrations: '\u0418\u043D\u0442\u0435\u0433\u0440\u0430\u0446\u0438\u0438',
+        footer_changelog: '\u0418\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F',
+        footer_blog: '\u0411\u043B\u043E\u0433',
+        footer_careers: '\u041A\u0430\u0440\u044C\u0435\u0440\u0430',
+        footer_contact: '\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B',
+        footer_privacy: '\u041A\u043E\u043D\u0444\u0438\u0434\u0435\u043D\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u044C',
+        footer_terms: '\u0423\u0441\u043B\u043E\u0432\u0438\u044F',
+        footer_security: '\u0411\u0435\u0437\u043E\u043F\u0430\u0441\u043D\u043E\u0441\u0442\u044C',
+        footer_copyright: '&copy; 2026 Clearmetric. \u0412\u0441\u0435 \u043F\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043D\u044B.',
+      }
+    };
+
+    let currentLang = 'en';
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+      document.documentElement.lang = lang;
+
+      // Update text nodes
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.textContent = t[key];
+      });
+
+      // Update HTML nodes (for elements with inner HTML like <em>)
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if (t[key] !== undefined) el.innerHTML = t[key];
+      });
+
+      // Update page title
+      document.title = lang === 'ru'
+        ? 'Clearmetric \u2014 \u0412\u0430\u0448\u0438 \u0434\u0430\u043D\u043D\u044B\u0435, \u043D\u0430\u043A\u043E\u043D\u0435\u0446 \u044F\u0441\u043D\u044B.'
+        : 'Clearmetric \u2014 Your data, finally clear.';
+
+      // Update toggle buttons
+      document.querySelectorAll('.lang-switch button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+
+      // Persist choice
+      try { localStorage.setItem('clearmetric-lang', lang); } catch(e) {}
+    }
+
+    function detectLanguage() {
+      // Check saved preference first
+      try {
+        const saved = localStorage.getItem('clearmetric-lang');
+        if (saved && translations[saved]) return saved;
+      } catch(e) {}
+
+      // Auto-detect from browser
+      const browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+      if (browserLang.startsWith('ru')) return 'ru';
+      return 'en';
+    }
+
+    // ── Navbar scroll effect ──
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    // ── Mobile menu toggle ──
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const navLinks = document.getElementById('nav-links');
+    mobileToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+
+    // ── Language switcher ──
+    document.getElementById('lang-switch').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-lang]');
+      if (btn && btn.dataset.lang !== currentLang) {
+        setLanguage(btn.dataset.lang);
+      }
+    });
+
+    // ── Pricing toggle ──
+    const billingToggle = document.getElementById('billing-toggle');
+    const priceSave = document.getElementById('pricing-save');
+    const toggleLabels = document.querySelectorAll('.toggle-label');
+    let isAnnual = false;
+
+    function updatePricing() {
+      const priceEl = document.querySelector('.price[data-monthly]');
+      const valueEl = priceEl.querySelector('.price-value');
+      valueEl.textContent = isAnnual ? priceEl.dataset.annual : priceEl.dataset.monthly;
+
+      billingToggle.classList.toggle('active', isAnnual);
+      priceSave.classList.toggle('visible', isAnnual);
+
+      toggleLabels.forEach(label => {
+        label.classList.toggle('active',
+          (isAnnual && label.dataset.period === 'annual') ||
+          (!isAnnual && label.dataset.period === 'monthly')
+        );
+      });
+    }
+
+    billingToggle.addEventListener('click', () => {
+      isAnnual = !isAnnual;
+      updatePricing();
+    });
+
+    billingToggle.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        isAnnual = !isAnnual;
+        updatePricing();
+      }
+    });
+
+    // ── Init language ──
+    const detectedLang = detectLanguage();
+    if (detectedLang !== 'en') {
+      setLanguage(detectedLang);
+    }
+  </script>
+</body>
+</html>
